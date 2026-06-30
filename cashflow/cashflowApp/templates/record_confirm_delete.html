@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Подтверждение удаления
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Вы действительно хотите удалить эту запись?</p>
+                
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tr>
+                                <td><strong>Дата:</strong></td>
+                                <td>{{ record.date|date:"d.m.Y" }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Статус:</strong></td>
+                                <td>{{ record.status.name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Тип:</strong></td>
+                                <td>{{ record.type.name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Категория:</strong></td>
+                                <td>{{ record.category.name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Подкатегория:</strong></td>
+                                <td>{{ record.subcategory.name }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Сумма:</strong></td>
+                                <td><strong>{{ record.amount|floatformat:2 }} ₽</strong></td>
+                            </tr>
+                            {% if record.comment %}
+                            <tr>
+                                <td><strong>Комментарий:</strong></td>
+                                <td>{{ record.comment }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+                
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Да, удалить
+                    </button>
+                    <a href="{% url 'cashflowApp:index' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-lg"></i> Отмена
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

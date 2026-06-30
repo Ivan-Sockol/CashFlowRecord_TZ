@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> {{ title }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Вы действительно хотите удалить элемент <strong>"{{ obj.name }}"</strong>?</p>
+                
+                {% if obj.type %}
+                    <p class="text-muted">
+                        <small>Принадлежит типу: {{ obj.type.name }}</small>
+                    </p>
+                {% endif %}
+                
+                {% if obj.category %}
+                    <p class="text-muted">
+                        <small>Принадлежит категории: {{ obj.category.name }}</small>
+                    </p>
+                {% endif %}
+                
+                <div class="alert alert-warning">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Внимание!</strong> 
+                    {% if obj.categories.exists or obj.subcategories.exists %}
+                        Этот элемент используется в других справочниках и не может быть удален.
+                    {% else %}
+                        Если этот элемент используется в записях, удаление будет запрещено.
+                    {% endif %}
+                </div>
+                
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Да, удалить
+                    </button>
+                    <a href="{% url 'cashflowApp:reference_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-lg"></i> Отмена
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
