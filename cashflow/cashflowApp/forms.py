@@ -26,7 +26,7 @@ class CashFlowRecordForm(forms.ModelForm):
         if not self.instance.pk:
             self.fields['date'].initial = date.today()
 
-        # ПОКАЗЫВАЕМ ВСЕ КАТЕГОРИИ И ПОДКАТЕГОРИИ
+        # показываем все категории и подкатегори
         # Фильтрация будет только на сервере при валидации
         self.fields['category'].queryset = Category.objects.all()
         self.fields['subcategory'].queryset = Subcategory.objects.all()
@@ -43,7 +43,7 @@ class CashFlowRecordForm(forms.ModelForm):
         subcategory = cleaned_data.get('subcategory')
         type_obj = cleaned_data.get('type')
 
-        # ВАЛИДАЦИЯ НА СЕРВЕРЕ
+        # валидация на сервере
         if category and subcategory:
             if subcategory.category_id != category.id:
                 raise ValidationError({
